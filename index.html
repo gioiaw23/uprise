@@ -642,6 +642,134 @@ section{ padding: clamp(3.5rem, 7vw, 6rem) 0; }
 .cred-card span{ font-size:.82rem; font-weight:700; color:var(--ink); font-family:'Archivo',sans-serif; letter-spacing:.01em; }
 
 /* ============================= */
+/* SERVICE MODAL                   */
+/* ============================= */
+.service-card{ cursor:pointer; }
+.service-card:focus-visible{ outline: 2px solid var(--teal); outline-offset: 3px; }
+
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background: rgba(17,20,23,.72);
+  z-index: 300;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding: clamp(1rem, 4vw, 2.5rem);
+  overflow-y:auto;
+}
+.modal-overlay.open{ display:flex; }
+
+.modal-panel{
+  position:relative;
+  background:#fff;
+  width: 100%;
+  max-width: 760px;
+  max-height: 88vh;
+  overflow-y:auto;
+  margin: auto;
+  border: 1px solid var(--line);
+}
+.modal-panel::before,
+.modal-panel::after{
+  content:'';
+  position:absolute;
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--teal);
+  pointer-events:none;
+  z-index:2;
+}
+.modal-panel::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+.modal-panel::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
+
+.modal-close{
+  position:absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 38px;
+  height: 38px;
+  background: var(--ink);
+  color:#fff;
+  border:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 1.4rem;
+  line-height:1;
+  cursor:pointer;
+  z-index:3;
+  transition: background .2s ease;
+}
+.modal-close:hover{ background: var(--teal-deep); }
+
+.modal-media{
+  position:relative;
+  height: 230px;
+  overflow:hidden;
+}
+.modal-media img{ width:100%; height:100%; object-fit:cover; }
+.modal-media .num{
+  position:absolute;
+  top:0; left:0;
+  background: var(--teal);
+  color: var(--ink);
+  font-family:'Archivo',sans-serif;
+  font-weight:800;
+  font-size:.78rem;
+  padding: .45rem .7rem;
+  letter-spacing:.04em;
+}
+
+.modal-body{ padding: clamp(1.5rem, 4vw, 2.4rem); }
+.modal-body .eyebrow{ margin-bottom:.7rem; }
+.modal-body h3{ font-size: clamp(1.4rem, 3vw, 1.75rem); margin-bottom: .9rem; }
+.modal-body > p.intro{ color: var(--ink-soft); font-size: .98rem; margin-bottom: 1.5rem; }
+
+.modal-section{ margin-bottom: 1.6rem; }
+.modal-section:last-of-type{ margin-bottom: 2rem; }
+.modal-section h4{
+  font-family:'Archivo',sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--teal-deep);
+  margin-bottom: .9rem;
+}
+.modal-list{ display:grid; gap: .65rem; }
+.modal-list li{
+  display:flex;
+  align-items:flex-start;
+  gap: .65rem;
+  font-size: .95rem;
+  color: var(--ink-soft);
+}
+.modal-list li .mark{
+  flex-shrink:0;
+  width:18px; height:18px;
+  background: var(--teal);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.62rem;
+  font-weight:900;
+  margin-top:.18rem;
+}
+.modal-list.two-col{
+  grid-template-columns: 1fr 1fr;
+  gap: .65rem 1rem;
+}
+.modal-body .btn{ width:100%; }
+
+@media (max-width: 560px){
+  .modal-panel{ max-height: 92vh; }
+  .modal-media{ height: 170px; }
+  .modal-list.two-col{ grid-template-columns: 1fr; }
+}
+
+/* ============================= */
 /* CONTACT                         */
 /* ============================= */
 .contact{ background: var(--ink); color:#fff; }
@@ -932,19 +1060,19 @@ footer{
 
     <div class="service-grid">
 
-      <div class="service-card" id="svc-bathrooms">
+      <div class="service-card" id="svc-bathrooms" data-modal="modal-bathrooms" role="button" tabindex="0" aria-haspopup="dialog">
         <div class="media">
           <span class="num">01</span>
-          <img src="bathrooms.png" alt="Spa-style bathroom remodel with glass shower and walk-in closet">
+          <img src="bathroom.png" alt="Spa-style bathroom remodel with glass shower and walk-in closet">
         </div>
         <div class="body">
           <h3>Bathrooms</h3>
           <p>Premium bathroom remodeling with flooring, countertops, freestanding and claw-foot tubs, and seamless walk-in showers &mdash; built with active communication and competitive pricing.</p>
-          <a href="#contact" class="more">Start your bathroom project</a>
+          <span class="more">Start your bathroom project</span>
         </div>
       </div>
 
-      <div class="service-card" id="svc-kitchens">
+      <div class="service-card" id="svc-kitchens" data-modal="modal-kitchens" role="button" tabindex="0" aria-haspopup="dialog">
         <div class="media">
           <span class="num">02</span>
           <img src="kitchens.png" alt="Modern kitchen island with stainless range hood and open living space">
@@ -952,11 +1080,11 @@ footer{
         <div class="body">
           <h3>Kitchens</h3>
           <p>The heart of the home, done right. We plan every detail &mdash; cabinets, countertops, lighting, flooring, sinks, and appliances &mdash; for a kitchen that's functional and beautiful.</p>
-          <a href="#contact" class="more">Start your kitchen project</a>
+          <span class="more">Start your kitchen project</span>
         </div>
       </div>
 
-      <div class="service-card" id="svc-homeremodel">
+      <div class="service-card" id="svc-homeremodel" data-modal="modal-homeremodel" role="button" tabindex="0" aria-haspopup="dialog">
         <div class="media">
           <span class="num">03</span>
           <img src="room.png" alt="Renovated dining area with crystal chandelier and open living room">
@@ -964,11 +1092,11 @@ footer{
         <div class="body">
           <h3>Home Remodel</h3>
           <p>Complete home remodeling across the greater Boston area &mdash; custom carpentry, granite and tile work, painting, custom cabinetry, fireplaces, basements, and design consultation.</p>
-          <a href="#contact" class="more">Start your home remodel</a>
+          <span class="more">Start your home remodel</span>
         </div>
       </div>
 
-      <div class="service-card" id="svc-outdoor">
+      <div class="service-card" id="svc-outdoor" data-modal="modal-outdoor" role="button" tabindex="0" aria-haspopup="dialog">
         <div class="media">
           <span class="num">04</span>
           <img src="outside.png" alt="Light-filled living room with floor-to-ceiling windows overlooking the outdoors">
@@ -976,11 +1104,11 @@ footer{
         <div class="body">
           <h3>Outdoor Living</h3>
           <p>There's so much to love about the outdoors. Revamp your outdoor living space with an upgraded deck, patio, roof, siding, and more.</p>
-          <a href="#contact" class="more">Start your outdoor project</a>
+          <span class="more">Start your outdoor project</span>
         </div>
       </div>
 
-      <div class="service-card" id="svc-general">
+      <div class="service-card" id="svc-general" data-modal="modal-general" role="button" tabindex="0" aria-haspopup="dialog">
         <div class="media">
           <span class="num">05</span>
           <img src="tool.png" alt="Carpenter reviewing construction plans on a job site">
@@ -988,11 +1116,11 @@ footer{
         <div class="body">
           <h3>General Contractor</h3>
           <p>From conception to completion. Our team handles general contracting solutions including HVAC, plumbing, and electrical work, with the quality and service you expect.</p>
-          <a href="#contact" class="more">Start your project</a>
+          <span class="more">Start your project</span>
         </div>
       </div>
 
-      <div class="service-card" id="svc-mobility-card">
+      <a class="service-card" id="svc-mobility-card" href="#mobility" aria-label="Jump to Mobility and Accessibility section">
         <div class="media">
           <span class="num">06</span>
           <img src="stairlift.png" alt="Stair lift installed along a carpeted staircase for home accessibility">
@@ -1000,9 +1128,9 @@ footer{
         <div class="body">
           <h3>Mobility &amp; Accessibility</h3>
           <p>Stair and ceiling lifts, curbless showers, grab bars, vertical and horizontal platform lifts, and automatic products &mdash; so you can age in place with confidence.</p>
-          <a href="#mobility" class="more">Explore mobility solutions</a>
+          <span class="more">Explore mobility solutions</span>
         </div>
-      </div>
+      </a>
 
     </div>
   </div>
@@ -1248,6 +1376,174 @@ footer{
   </div>
 </footer>
 
+<!-- ============ SERVICE MODALS ============ -->
+<div class="modal-overlay" id="modalOverlay">
+
+  <!-- BATHROOMS -->
+  <div class="modal-panel" id="modal-bathrooms" role="dialog" aria-modal="true" aria-labelledby="modal-bathrooms-title" hidden>
+    <button class="modal-close" aria-label="Close">&times;</button>
+    <div class="modal-media">
+      <span class="num">01</span>
+      <img src="bathroom.png" alt="Spa-style bathroom remodel with glass shower and walk-in closet">
+    </div>
+    <div class="modal-body">
+      <span class="eyebrow">Bathrooms</span>
+      <h3 id="modal-bathrooms-title">Bathrooms with Supreme Craftsmanship</h3>
+      <p class="intro">Having a relaxing space in your home is possible for everyone! Our experienced contractors work with you from start to finish to exceed expectations.</p>
+
+      <div class="modal-section">
+        <h4>You'll Receive</h4>
+        <ul class="modal-list two-col">
+          <li><span class="mark">&#10003;</span>Active communication</li>
+          <li><span class="mark">&#10003;</span>Quality work</li>
+          <li><span class="mark">&#10003;</span>Premium design options</li>
+          <li><span class="mark">&#10003;</span>Competitive pricing</li>
+          <li><span class="mark">&#10003;</span>A bathroom you'll love</li>
+        </ul>
+      </div>
+
+      <div class="modal-section">
+        <h4>Our Bathroom Renovation Services Include</h4>
+        <ul class="modal-list two-col">
+          <li><span class="mark">&#10003;</span>Flooring</li>
+          <li><span class="mark">&#10003;</span>Countertops</li>
+          <li><span class="mark">&#10003;</span>Tubs &mdash; freestanding, hot tubs, claw foot</li>
+          <li><span class="mark">&#10003;</span>Showers &mdash; walk-in, seamless, sectional</li>
+          <li><span class="mark">&#10003;</span>Sinks</li>
+        </ul>
+      </div>
+
+      <a href="#contact" class="btn tel modal-cta">Let's Get Started on Your New Bathroom</a>
+    </div>
+  </div>
+
+  <!-- KITCHENS -->
+  <div class="modal-panel" id="modal-kitchens" role="dialog" aria-modal="true" aria-labelledby="modal-kitchens-title" hidden>
+    <button class="modal-close" aria-label="Close">&times;</button>
+    <div class="modal-media">
+      <span class="num">02</span>
+      <img src="kitchens.png" alt="Modern kitchen island with stainless range hood and open living space">
+    </div>
+    <div class="modal-body">
+      <span class="eyebrow">Kitchens</span>
+      <h3 id="modal-kitchens-title">Elevate Your Kitchen to Suit Your Life</h3>
+      <p class="intro">The kitchen is considered to be the heart of the home, and we agree! That's why Uprise Builders works with you every step of the way designing and planning out the perfect kitchen for you and your family.</p>
+
+      <div class="modal-section">
+        <h4>Our Kitchen Remodel Services Include</h4>
+        <ul class="modal-list two-col">
+          <li><span class="mark">&#10003;</span>Cabinets</li>
+          <li><span class="mark">&#10003;</span>Countertops</li>
+          <li><span class="mark">&#10003;</span>Lights</li>
+          <li><span class="mark">&#10003;</span>Flooring</li>
+          <li><span class="mark">&#10003;</span>Sinks</li>
+          <li><span class="mark">&#10003;</span>Appliances</li>
+        </ul>
+      </div>
+      <p class="intro" style="margin-bottom:1.6rem;">Your kitchen can be both functional and beautiful &mdash; we'll help you design one that works exactly the way your family lives.</p>
+
+      <a href="#contact" class="btn tel modal-cta">Let's Get Started on Your New Kitchen</a>
+    </div>
+  </div>
+
+  <!-- HOME REMODEL -->
+  <div class="modal-panel" id="modal-homeremodel" role="dialog" aria-modal="true" aria-labelledby="modal-homeremodel-title" hidden>
+    <button class="modal-close" aria-label="Close">&times;</button>
+    <div class="modal-media">
+      <span class="num">03</span>
+      <img src="room.png" alt="Renovated dining area with crystal chandelier and open living room">
+    </div>
+    <div class="modal-body">
+      <span class="eyebrow">Home Remodel</span>
+      <h3 id="modal-homeremodel-title">Elevate Your Home</h3>
+      <p class="intro">Uprise Builders brings dream homes to life with complete home remodeling services across the greater Boston area. With over 25 years of experience, we ensure a beautiful living space at a competitive price and an efficient timeline. We love delivering end-to-end elevated home remodels that add value to a home and share our passion for precision, professionalism, and perfection.</p>
+
+      <div class="modal-section">
+        <h4>Our Scope of Work</h4>
+        <ul class="modal-list two-col">
+          <li><span class="mark">&#10003;</span>Kitchen &amp; Bathroom Remodeling</li>
+          <li><span class="mark">&#10003;</span>Flooring Installation</li>
+          <li><span class="mark">&#10003;</span>Custom Carpentry</li>
+          <li><span class="mark">&#10003;</span>Kitchen Renovation</li>
+          <li><span class="mark">&#10003;</span>Bathroom Renovation</li>
+          <li><span class="mark">&#10003;</span>Product Selection Aid</li>
+          <li><span class="mark">&#10003;</span>Granite, Tile &amp; Stone Work</li>
+          <li><span class="mark">&#10003;</span>Painting</li>
+          <li><span class="mark">&#10003;</span>Design Consultation</li>
+          <li><span class="mark">&#10003;</span>Custom Cabinetry</li>
+          <li><span class="mark">&#10003;</span>Fireplaces</li>
+          <li><span class="mark">&#10003;</span>Basement Remodeling</li>
+        </ul>
+      </div>
+
+      <a href="#contact" class="btn tel modal-cta">Let's Get Started on Your Home Remodel</a>
+    </div>
+  </div>
+
+  <!-- OUTDOOR LIVING -->
+  <div class="modal-panel" id="modal-outdoor" role="dialog" aria-modal="true" aria-labelledby="modal-outdoor-title" hidden>
+    <button class="modal-close" aria-label="Close">&times;</button>
+    <div class="modal-media">
+      <span class="num">04</span>
+      <img src="outside.png" alt="Light-filled living room with floor-to-ceiling windows overlooking the outdoors">
+    </div>
+    <div class="modal-body">
+      <span class="eyebrow">Outdoor Living</span>
+      <h3 id="modal-outdoor-title">Outdoor Home Renovations</h3>
+      <p class="intro">There is so much to love about the outdoors, especially within the confines of your own home. Revamp your outdoor living space with an upgraded deck, patio, roof, siding, and more &mdash; built to handle New England's seasons and made for the way you actually live outside.</p>
+
+      <div class="modal-section">
+        <h4>Our Outdoor Living Services Include</h4>
+        <ul class="modal-list two-col">
+          <li><span class="mark">&#10003;</span>Decks &amp; patios</li>
+          <li><span class="mark">&#10003;</span>Roofing</li>
+          <li><span class="mark">&#10003;</span>Siding</li>
+          <li><span class="mark">&#10003;</span>Outdoor kitchens</li>
+          <li><span class="mark">&#10003;</span>Pergolas &amp; covered porches</li>
+          <li><span class="mark">&#10003;</span>Walkways &amp; hardscaping</li>
+          <li><span class="mark">&#10003;</span>Fencing</li>
+          <li><span class="mark">&#10003;</span>Exterior lighting</li>
+          <li><span class="mark">&#10003;</span>Accessible ramps &amp; entryways</li>
+          <li><span class="mark">&#10003;</span>Outdoor accessibility upgrades</li>
+        </ul>
+      </div>
+
+      <a href="#contact" class="btn tel modal-cta">Get Started on Your Outdoor Project</a>
+    </div>
+  </div>
+
+  <!-- GENERAL CONTRACTOR -->
+  <div class="modal-panel" id="modal-general" role="dialog" aria-modal="true" aria-labelledby="modal-general-title" hidden>
+    <button class="modal-close" aria-label="Close">&times;</button>
+    <div class="modal-media">
+      <span class="num">05</span>
+      <img src="tool.png" alt="Carpenter reviewing construction plans on a job site">
+    </div>
+    <div class="modal-body">
+      <span class="eyebrow">General Contractor</span>
+      <h3 id="modal-general-title">General Contractor</h3>
+      <p class="intro">Uprise Builders takes projects from conception to completion, using years of experience to provide the best quality and customer service for homeowners across the greater Boston area. As your general contractor, we manage every trade, every timeline, and every detail &mdash; so you only have to talk to one team.</p>
+
+      <div class="modal-section">
+        <h4>General Contracting Solutions Include</h4>
+        <ul class="modal-list two-col">
+          <li><span class="mark">&#10003;</span>HVAC</li>
+          <li><span class="mark">&#10003;</span>Plumbing</li>
+          <li><span class="mark">&#10003;</span>Electrical work</li>
+          <li><span class="mark">&#10003;</span>Permitting &amp; inspections</li>
+          <li><span class="mark">&#10003;</span>Subcontractor management</li>
+          <li><span class="mark">&#10003;</span>Project scheduling</li>
+          <li><span class="mark">&#10003;</span>Budgeting &amp; cost control</li>
+          <li><span class="mark">&#10003;</span>Quality control &amp; site safety</li>
+        </ul>
+      </div>
+
+      <a href="#contact" class="btn tel modal-cta">Get Started With a General Contractor</a>
+    </div>
+  </div>
+
+</div>
+
 <script>
   // Mobile nav toggle
   var burgerBtn = document.getElementById('burgerBtn');
@@ -1267,6 +1563,58 @@ footer{
     e.preventDefault();
     successMsg.classList.add('show');
     form.reset();
+  });
+
+  // Service card modals
+  var modalOverlay = document.getElementById('modalOverlay');
+  var lastFocusedCard = null;
+
+  function openModal(id){
+    var panel = document.getElementById(id);
+    if(!panel) return;
+    document.querySelectorAll('.modal-panel').forEach(function(p){ p.hidden = true; });
+    panel.hidden = false;
+    modalOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    var closeBtn = panel.querySelector('.modal-close');
+    if(closeBtn) closeBtn.focus();
+  }
+
+  function closeModal(){
+    modalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+    document.querySelectorAll('.modal-panel').forEach(function(p){ p.hidden = true; });
+    if(lastFocusedCard) lastFocusedCard.focus();
+  }
+
+  document.querySelectorAll('.service-card[data-modal]').forEach(function(card){
+    card.addEventListener('click', function(){
+      lastFocusedCard = card;
+      openModal(card.getAttribute('data-modal'));
+    });
+    card.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        lastFocusedCard = card;
+        openModal(card.getAttribute('data-modal'));
+      }
+    });
+  });
+
+  document.querySelectorAll('.modal-close').forEach(function(btn){
+    btn.addEventListener('click', closeModal);
+  });
+
+  modalOverlay.addEventListener('click', function(e){
+    if(e.target === modalOverlay) closeModal();
+  });
+
+  document.querySelectorAll('.modal-cta').forEach(function(link){
+    link.addEventListener('click', closeModal);
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
   });
 </script>
 
